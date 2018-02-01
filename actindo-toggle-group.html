@@ -1,0 +1,322 @@
+<link rel="import" href="../iron-a11y-keys/iron-a11y-keys.html">
+<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../polymer/polymer.html">
+<dom-module id="actindo-toggle-group">
+    <template>
+
+        <style>
+            :host {
+                --inactive-color: var(--actindo-secondary);
+                --active-color: var(--actindo-secondary);
+                --active-background-color: var(--actindo-light-grey-dark);
+                --flex-direction: row;
+                --flex-wrap: wrap;
+                --toggle-button-style: {
+                    border-radius: 4px;
+                    font-weight: bold;
+                    margin: 0;
+                }
+            }
+
+            :host(.vertical) {
+                --flex-direction: column;
+            }
+
+            paper-button {
+                color: var(--inactive-color);
+                @apply(--toggle-button-style);
+                /*
+                border-radius: 4px;
+                font-weight: bold;
+                margin: 0;*/
+            }
+            paper-button.paper-button-active-true {
+                color: var(--active-color);
+                background-color:var(--active-background-color);
+            }
+            .container
+            {
+                display: flex;
+                flex-direction: var(--flex-direction);
+                flex-wrap: var(--flex-wrap);
+            }
+        </style>
+        <iron-a11y-keys id="a11y" keys="up down left right" on-keys-pressed="_onKeyPressed">
+            <div class="container">
+                <template is="dom-repeat" items="{{items}}" as="element">
+                    <paper-button on-tap="_onToggle" class$="paper-button-active-[[element.active]]">
+                        [[_getDisplayValue(element)]]
+                    </paper-button>
+                </template>
+            </div>
+        </iron-a11y-keys>
+    </template>
+    <script>
+        class ActindoToggleGroup extends Polymer.Element {
+            static get is()
+            {
+                return 'actindo-toggle-group';
+            }
+            static get properties()
+            {
+                return {
+
+                    /**
+                     * Array of items to be shown
+                     */
+                    items: {
+                        type: Array,
+                        value: function() {return  []; },
+                        observer: "_onItemsChanged"
+                    },
+
+                    /**
+                     * Internal attribute to trigger recomputing selectedItem on itemsChange
+                     * @private
+                     */
+                    _x: {
+                        type: Number,
+                        value: 1
+                    },
+
+                    /**
+                     * Content of the value field of the currently selected element
+                     */
+                    value: {
+                        type: String,
+                        notify: true,
+                        observer: "_onValueChanged"
+                    },
+
+
+                    /**
+                     * Contains the selected item
+                     */
+                    selectedItem: {
+                        type: Object,
+                        notify: true,
+                        computed: "_getSelectedItem(value, _x)"
+                    },
+
+                    /**
+                     * Determines the value field
+                     */
+                    valueField: {
+                        type: String,
+                        value: "id"
+                    },
+
+                    /**
+                     * Determines the display field
+                     */
+                    displayField: {
+                        type: String,
+                        value: "text"
+                    },
+
+                    /**
+                     * If true value attribute is reseted if no corresponding item is found
+                     */
+                    resetInvalidValue: {
+                        type: Boolean,
+                        value: false
+                    },
+
+                    /**
+                     * If true one can deselect be clicking the toggled item
+                     */
+                    allowDeselect: {
+                        type: Boolean,
+                        value: false
+                    }
+                }
+            }
+
+            /**
+             *
+             * @param {Object} value
+             * @param {Number} x
+             * @returns {Object}
+             * @private
+             */
+            _getSelectedItem(value, x)
+            {
+                if( !value )
+                {
+                    return null;
+                }
+                for(let i=0;i<this.items.length;i++)
+                {
+                    if( Polymer.Path.get( this.items[i], this.valueField ) === value )
+                    {
+                        return this.items[i];
+                    }
+                }
+                return null;
+            }
+
+            /**
+             * Returns the display value
+             * @param {Object} value
+             * @private
+             */
+            _getDisplayValue(value)
+            {
+                return Polymer.Path.get( value, this.displayField );
+            }
+
+            /**
+             * Changes selected item triggerd by arrow keys
+             *
+             * @param {Event} e
+             * @private
+             */
+            _onKeyPressed(e)
+            {
+                let id = this.value;
+                let index = -1;
+                for(let i=0;i<this.items.length;i++)
+                {
+                    if( Polymer.Path.get(this.items[i], this.valueField) === id )
+                    {
+                        index = i;
+                        break;
+                    }
+                }
+                if( index < 0 )
+                {
+                    if( this.items && this.items.length > 0 )
+                    {
+                        switch( e.detail.keyboardEvent.key )
+                        {
+                            case "ArrowRight":
+                            case "ArrowDown":
+                                this.value = Polymer.Path.get( this.items[0], this.valueField );
+                                break;
+                            case "ArrowLeft":
+                            case "ArrowUp":
+                                this.value = Polymer.Path.get( this.items[this.items.length-1], this.valueField );
+                                break;
+                        }
+                    }
+                    return;
+                }
+                let newIndex;
+                switch( e.detail.keyboardEvent.key )
+                {
+                    case "ArrowRight":
+                    case "ArrowDown":
+                        newIndex = index+1;
+                        break;
+                    case "ArrowLeft":
+                    case "ArrowUp":
+                        newIndex = index-1;
+                        break;
+                    default:
+                        return;
+                }
+                if( newIndex < 0 || newIndex>=this.items.length ) //out of range
+                {
+                    return;
+                }
+                this.value = Polymer.Path.get( this.items[newIndex], this.valueField );
+            }
+
+            /**
+             *
+             * @param {Array} newValue
+             * @param {Array} oldValue
+             * @private
+             */
+            _onItemsChanged( newValue, oldValue )
+            {
+                if( newValue === undefined )
+                {
+                    this.items = [];
+                    this.value = null;
+                    return;
+                }
+                for(let i=0;i<newValue.length;i++)
+                {
+                    if (newValue[i].active)
+                    {
+                        this.value = Polymer.Path.get(this.items[i], this.valueField);
+                        return;
+                    }
+                }
+                for(let i=0;i<newValue.length;i++)
+                {
+                    if( Polymer.Path.get( newValue[i], this.valueField  ) === this.value )
+                    {
+                        this.set( "items."+i+".active", true );
+                        ++this._x;//retrigger setting selectedItem
+                        return;
+                    }
+                }
+                this.set( "selectedValue", null );
+                this.value = null;
+            }
+
+            /**
+             *
+             * @param {Array} newValue
+             * @param {Array} oldValue
+             * @private
+             */
+            _onValueChanged( newValue, oldValue ) //Change from external source
+            {
+                if( !newValue )
+                {
+                    if( this.items )
+                    {
+                        for(let i=0;i<this.items.length;i++)
+                        {
+                            this.set( "items."+i+".active", false );
+                        }
+                    }
+                    return;
+                }
+                if( !this.items )
+                {
+                    this.value = null;
+                    return;
+                }
+                let found = false;
+                for(let i=0;i<this.items.length;i++)
+                {
+                    if( Polymer.Path.get(this.items[i], this.valueField) === newValue )
+                    {
+                        this.set( "items."+i+".active", true );
+                        found = true;
+                    }
+                    else
+                    {
+                        this.set( "items."+i+".active", false );
+                    }
+                }
+                if( !found && this.resetInvalidValue )
+                {
+                    this.value = null;
+                }
+            }
+
+            /**
+             *
+             * @param {Event} e
+             * @private
+             */
+            _onToggle( e )
+            {
+                if( this.allowDeselect && this.value === e.model.get("element."+this.valueField) )
+                {
+                    this.value = null;
+                }
+                else
+                {
+                    this.value = e.model.get("element."+this.valueField);
+                }
+            }
+        }
+        customElements.define( ActindoToggleGroup.is, ActindoToggleGroup );
+    </script>
+</dom-module>

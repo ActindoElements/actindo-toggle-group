@@ -1,0 +1,477 @@
+{
+  "schema_version": "1.0.0",
+  "elements": [
+    {
+      "description": "",
+      "summary": "",
+      "path": "actindo-toggle-group.html",
+      "properties": [
+        {
+          "name": "items",
+          "type": "Array",
+          "description": "Array of items to be shown",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 66,
+              "column": 20
+            },
+            "end": {
+              "line": 70,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "observer": "\"_onItemsChanged\""
+            }
+          },
+          "defaultValue": "[]"
+        },
+        {
+          "name": "_x",
+          "type": "number",
+          "description": "Internal attribute to trigger recomputing selectedItem on itemsChange",
+          "privacy": "private",
+          "sourceRange": {
+            "start": {
+              "line": 76,
+              "column": 20
+            },
+            "end": {
+              "line": 79,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "1"
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "description": "Content of the value field of the currently selected element",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 84,
+              "column": 20
+            },
+            "end": {
+              "line": 88,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "notify": true,
+              "observer": "\"_onValueChanged\""
+            }
+          }
+        },
+        {
+          "name": "selectedItem",
+          "type": "Object",
+          "description": "Contains the selected item",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 94,
+              "column": 20
+            },
+            "end": {
+              "line": 98,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "notify": true,
+              "readOnly": true
+            }
+          }
+        },
+        {
+          "name": "valueField",
+          "type": "string",
+          "description": "Determines the value field",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 103,
+              "column": 20
+            },
+            "end": {
+              "line": 106,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "\"id\""
+        },
+        {
+          "name": "displayField",
+          "type": "string",
+          "description": "Determines the display field",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 111,
+              "column": 20
+            },
+            "end": {
+              "line": 114,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "\"text\""
+        },
+        {
+          "name": "resetInvalidValue",
+          "type": "boolean",
+          "description": "If true value attribute is reseted if no corresponding item is found",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 119,
+              "column": 20
+            },
+            "end": {
+              "line": 122,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "false"
+        },
+        {
+          "name": "allowDeselect",
+          "type": "boolean",
+          "description": "If true one can deselect be clicking the toggled item",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 127,
+              "column": 20
+            },
+            "end": {
+              "line": 130,
+              "column": 21
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "false"
+        }
+      ],
+      "methods": [
+        {
+          "name": "_getSelectedItem",
+          "description": "",
+          "privacy": "private",
+          "sourceRange": {
+            "start": {
+              "line": 141,
+              "column": 12
+            },
+            "end": {
+              "line": 155,
+              "column": 13
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "value",
+              "type": "Object"
+            },
+            {
+              "name": "x",
+              "type": "Number"
+            }
+          ],
+          "return": {
+            "type": "Object"
+          }
+        },
+        {
+          "name": "_getDisplayValue",
+          "description": "Returns the display value",
+          "privacy": "private",
+          "sourceRange": {
+            "start": {
+              "line": 162,
+              "column": 12
+            },
+            "end": {
+              "line": 165,
+              "column": 13
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "value",
+              "type": "Object"
+            }
+          ]
+        },
+        {
+          "name": "_onKeyPressed",
+          "description": "Changes selected item triggerd by arrow keys",
+          "privacy": "private",
+          "sourceRange": {
+            "start": {
+              "line": 173,
+              "column": 12
+            },
+            "end": {
+              "line": 222,
+              "column": 13
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "e",
+              "type": "Event"
+            }
+          ]
+        },
+        {
+          "name": "_onItemsChanged",
+          "description": "",
+          "privacy": "private",
+          "sourceRange": {
+            "start": {
+              "line": 230,
+              "column": 12
+            },
+            "end": {
+              "line": 257,
+              "column": 13
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "newValue",
+              "type": "Array"
+            },
+            {
+              "name": "oldValue",
+              "type": "Array"
+            }
+          ]
+        },
+        {
+          "name": "_onValueChanged",
+          "description": "",
+          "privacy": "private",
+          "sourceRange": {
+            "start": {
+              "line": 265,
+              "column": 12
+            },
+            "end": {
+              "line": 300,
+              "column": 13
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "newValue",
+              "type": "Array"
+            },
+            {
+              "name": "oldValue",
+              "type": "Array"
+            }
+          ]
+        },
+        {
+          "name": "_onToggle",
+          "description": "",
+          "privacy": "private",
+          "sourceRange": {
+            "start": {
+              "line": 307,
+              "column": 12
+            },
+            "end": {
+              "line": 317,
+              "column": 13
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "e",
+              "type": "Event"
+            }
+          ]
+        }
+      ],
+      "staticMethods": [],
+      "demos": [],
+      "metadata": {},
+      "sourceRange": {
+        "start": {
+          "line": 54,
+          "column": 8
+        },
+        "end": {
+          "line": 318,
+          "column": 9
+        }
+      },
+      "privacy": "public",
+      "superclass": "Polymer.Element",
+      "name": "ActindoToggleGroup",
+      "attributes": [
+        {
+          "name": "items",
+          "description": "Array of items to be shown",
+          "sourceRange": {
+            "start": {
+              "line": 66,
+              "column": 20
+            },
+            "end": {
+              "line": 70,
+              "column": 21
+            }
+          },
+          "metadata": {},
+          "type": "Array"
+        },
+        {
+          "name": "value",
+          "description": "Content of the value field of the currently selected element",
+          "sourceRange": {
+            "start": {
+              "line": 84,
+              "column": 20
+            },
+            "end": {
+              "line": 88,
+              "column": 21
+            }
+          },
+          "metadata": {},
+          "type": "string"
+        },
+        {
+          "name": "selected-item",
+          "description": "Contains the selected item",
+          "sourceRange": {
+            "start": {
+              "line": 94,
+              "column": 20
+            },
+            "end": {
+              "line": 98,
+              "column": 21
+            }
+          },
+          "metadata": {},
+          "type": "Object"
+        },
+        {
+          "name": "value-field",
+          "description": "Determines the value field",
+          "sourceRange": {
+            "start": {
+              "line": 103,
+              "column": 20
+            },
+            "end": {
+              "line": 106,
+              "column": 21
+            }
+          },
+          "metadata": {},
+          "type": "string"
+        },
+        {
+          "name": "display-field",
+          "description": "Determines the display field",
+          "sourceRange": {
+            "start": {
+              "line": 111,
+              "column": 20
+            },
+            "end": {
+              "line": 114,
+              "column": 21
+            }
+          },
+          "metadata": {},
+          "type": "string"
+        },
+        {
+          "name": "reset-invalid-value",
+          "description": "If true value attribute is reseted if no corresponding item is found",
+          "sourceRange": {
+            "start": {
+              "line": 119,
+              "column": 20
+            },
+            "end": {
+              "line": 122,
+              "column": 21
+            }
+          },
+          "metadata": {},
+          "type": "boolean"
+        },
+        {
+          "name": "allow-deselect",
+          "description": "If true one can deselect be clicking the toggled item",
+          "sourceRange": {
+            "start": {
+              "line": 127,
+              "column": 20
+            },
+            "end": {
+              "line": 130,
+              "column": 21
+            }
+          },
+          "metadata": {},
+          "type": "boolean"
+        }
+      ],
+      "events": [
+        {
+          "type": "CustomEvent",
+          "name": "value-changed",
+          "description": "Fired when the `value` property changes.",
+          "metadata": {}
+        },
+        {
+          "type": "CustomEvent",
+          "name": "selected-item-changed",
+          "description": "Fired when the `selectedItem` property changes.",
+          "metadata": {}
+        }
+      ],
+      "styling": {
+        "cssVariables": [],
+        "selectors": []
+      },
+      "slots": [],
+      "tagname": "actindo-toggle-group"
+    }
+  ]
+}
