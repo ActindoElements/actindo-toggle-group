@@ -3,18 +3,21 @@
 <link rel="import" href="../polymer/polymer.html">
 <dom-module id="actindo-toggle-group">
     <template>
-
         <style>
             :host {
                 --inactive-color: var(--actindo-secondary);
                 --active-color: var(--actindo-secondary);
                 --active-background-color: var(--actindo-light-grey-dark);
+                --inactive-background-color: white;
                 --flex-direction: row;
                 --flex-wrap: wrap;
                 --toggle-button-style: {
                     border-radius: 4px;
                     font-weight: bold;
                     margin: 0;
+                };
+                --active-toggle-button-style: {
+
                 }
             }
 
@@ -24,6 +27,7 @@
 
             paper-button {
                 color: var(--inactive-color);
+                background-color: var(--inactive-background-color);
                 @apply(--toggle-button-style);
                 /*
                 border-radius: 4px;
@@ -33,6 +37,7 @@
             paper-button.paper-button-active-true {
                 color: var(--active-color);
                 background-color:var(--active-background-color);
+                @apply(--active-toggle-button-style);
             }
             .container
             {
